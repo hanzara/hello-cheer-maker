@@ -33,6 +33,17 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
   const [otpCode, setOtpCode] = useState('');
   const [status, setStatus] = useState('pending');
 
+  // Specific payment method fields
+  const [mpesaNumber, setMpesaNumber] = useState('');
+  const [bankAccount, setBankAccount] = useState('');
+  const [bankCode, setBankCode] = useState('');
+  const [iban, setIban] = useState('');
+  const [swiftCode, setSwiftCode] = useState('');
+  const [cryptoAddress, setCryptoAddress] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+
   const { wallets, sendPayment } = useWallet();
   const { toast } = useToast();
 
@@ -202,14 +213,137 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
                 </div>
               </div>
 
-              {/* Destination */}
+              {/* Dynamic Destination Fields Based on Channel */}
               <div className="space-y-2">
-                <Label>Destination</Label>
-                <Input 
-                  placeholder="Email, phone, wallet address, IBAN, QR code..."
-                  value={recipient}
-                  onChange={(e) => setRecipient(e.target.value)}
-                />
+                <Label>Destination Details</Label>
+                {channel === 'mobile_money' && (
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-sm">Mobile Money Number</Label>
+                      <Input 
+                        placeholder="e.g. +254712345678 (M-Pesa)"
+                        value={mpesaNumber}
+                        onChange={(e) => setMpesaNumber(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Recipient Name</Label>
+                      <Input 
+                        placeholder="Full name as registered"
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+                
+                {(channel === 'sepa' || channel === 'swift') && (
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-sm">Bank Account Number / IBAN</Label>
+                      <Input 
+                        placeholder={channel === 'sepa' ? 'IBAN: DE89370400440532013000' : 'Account Number'}
+                        value={channel === 'sepa' ? iban : bankAccount}
+                        onChange={(e) => channel === 'sepa' ? setIban(e.target.value) : setBankAccount(e.target.value)}
+                      />
+                    </div>
+                    {channel === 'swift' && (
+                      <div>
+                        <Label className="text-sm">SWIFT Code</Label>
+                        <Input 
+                          placeholder="e.g. DEUTDEFF"
+                          value={swiftCode}
+                          onChange={(e) => setSwiftCode(e.target.value)}
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <Label className="text-sm">Beneficiary Name</Label>
+                      <Input 
+                        placeholder="Full name on account"
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {(channel === 'visa' || channel === 'mastercard') && (
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-sm">Card Number</Label>
+                      <Input 
+                        placeholder="1234 5678 9012 3456"
+                        value={cardNumber}
+                        onChange={(e) => setCardNumber(e.target.value)}
+                        maxLength={19}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <Label className="text-sm">Expiry Date</Label>
+                        <Input 
+                          placeholder="MM/YY"
+                          value={expiryDate}
+                          onChange={(e) => setExpiryDate(e.target.value)}
+                          maxLength={5}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm">CVV</Label>
+                        <Input 
+                          placeholder="123"
+                          value={cvv}
+                          onChange={(e) => setCvv(e.target.value)}
+                          maxLength={4}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label className="text-sm">Cardholder Name</Label>
+                      <Input 
+                        placeholder="Name on card"
+                        value={recipient}
+                        onChange={(e) => setRecipient(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {channel === 'crypto' && (
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="text-sm">Crypto Wallet Address</Label>
+                      <Input 
+                        placeholder="0x742d35Cc6326C0532C3aB..."
+                        value={cryptoAddress}
+                        onChange={(e) => setCryptoAddress(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm">Network</Label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select network" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="ethereum">Ethereum (ETH)</SelectItem>
+                          <SelectItem value="bitcoin">Bitcoin (BTC)</SelectItem>
+                          <SelectItem value="bsc">Binance Smart Chain</SelectItem>
+                          <SelectItem value="polygon">Polygon (MATIC)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                )}
+
+                {!channel && (
+                  <div className="p-4 bg-muted/50 rounded-lg text-center">
+                    <p className="text-sm text-muted-foreground">
+                      Please select a payment channel above to enter destination details
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Amount & Channel */}
