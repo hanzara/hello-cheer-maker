@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowDownLeft, ArrowUpRight, Copy, QrCode, Send, Zap } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Copy, QrCode, Send, Zap, Wallet, CreditCard, Building2, Smartphone, Clock, Shield } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { useToast } from "@/hooks/use-toast";
 
@@ -24,6 +24,14 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
   const [message, setMessage] = useState('');
   const [autopilot, setAutopilot] = useState(true);
   const [loading, setLoading] = useState(false);
+  
+  // Enhanced form fields
+  const [source, setSource] = useState('wallet');
+  const [channel, setChannel] = useState('');
+  const [timing, setTiming] = useState('standard');
+  const [authStep, setAuthStep] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [status, setStatus] = useState('pending');
 
   const { wallets, sendPayment } = useWallet();
   const { toast } = useToast();
@@ -141,16 +149,70 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
         <div className="space-y-4">
           {mode === 'send' ? (
             <>
-              {/* Send Form */}
+              {/* Enhanced Send Form */}
+              
+              {/* Source */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Wallet className="h-4 w-4" />
+                    Source
+                  </Label>
+                  <Select value={source} onValueChange={setSource}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="wallet">
+                        <div className="flex items-center gap-2">
+                          <Wallet className="h-4 w-4" />
+                          Wallet Balance
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="card">
+                        <div className="flex items-center gap-2">
+                          <CreditCard className="h-4 w-4" />
+                          Credit/Debit Card
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="bank">
+                        <div className="flex items-center gap-2">
+                          <Building2 className="h-4 w-4" />
+                          Bank Account
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Currency</Label>
+                  <Select value={currency} onValueChange={setCurrency}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {wallets.map((wallet) => (
+                        <SelectItem key={wallet.currency} value={wallet.currency}>
+                          {wallet.currency}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Destination */}
               <div className="space-y-2">
-                <Label>Recipient</Label>
+                <Label>Destination</Label>
                 <Input 
-                  placeholder="Email, phone, wallet address, IBAN..."
+                  placeholder="Email, phone, wallet address, IBAN, QR code..."
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
                 />
               </div>
 
+              {/* Amount & Channel */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Amount</Label>
@@ -171,36 +233,67 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
                     )}
                   </div>
                 </div>
+
                 <div className="space-y-2">
-                  <Label>Currency</Label>
-                  <Select value={currency} onValueChange={setCurrency}>
+                  <Label className="flex items-center gap-2">
+                    <Smartphone className="h-4 w-4" />
+                    Channel
+                  </Label>
+                  <Select value={channel} onValueChange={setChannel}>
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder="Select method" />
                     </SelectTrigger>
                     <SelectContent>
-                      {wallets.map((wallet) => (
-                        <SelectItem key={wallet.currency} value={wallet.currency}>
-                          {wallet.currency}
-                        </SelectItem>
-                      ))}
+                      <SelectItem value="mobile_money">Mobile Money</SelectItem>
+                      <SelectItem value="sepa">SEPA Transfer</SelectItem>
+                      <SelectItem value="visa">Visa Network</SelectItem>
+                      <SelectItem value="mastercard">Mastercard</SelectItem>
+                      <SelectItem value="crypto">Crypto Network</SelectItem>
+                      <SelectItem value="swift">SWIFT Wire</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label>Message (Optional)</Label>
-                <Textarea 
-                  placeholder="Payment reference or note"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
+              {/* Reference & Timing */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Reference</Label>
+                  <Textarea 
+                    placeholder="Payment reference or note"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    rows={2}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    Timing
+                  </Label>
+                  <Select value={timing} onValueChange={setTiming}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="instant">Instant (2-5 min)</SelectItem>
+                      <SelectItem value="standard">Standard (1-2 hours)</SelectItem>
+                      <SelectItem value="economy">Economy (1-3 days)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
-              {/* Live conversion rates and fees */}
+              {/* Fees & Status Display */}
               {amount && (
                 <div className="p-4 bg-primary/5 rounded-lg border border-primary/20 space-y-3">
-                  <h4 className="font-medium text-sm">Transaction Summary</h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-sm">Transaction Summary</h4>
+                    <Badge variant={status === 'pending' ? 'secondary' : status === 'processing' ? 'default' : status === 'completed' ? 'default' : 'destructive'}>
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </Badge>
+                  </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Exchange Rate</span>
@@ -211,21 +304,36 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
                       <span>{amount} {currency}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">USD Value</span>
-                      <span>${conversionInfo.usdValue.toFixed(2)}</span>
+                      <span className="text-muted-foreground">Channel Fee</span>
+                      <span>{conversionInfo.fee.toFixed(2)} {currency}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Transaction Fee</span>
-                      <span>{conversionInfo.fee.toFixed(2)} {currency}</span>
+                      <span className="text-muted-foreground">Expected Time</span>
+                      <span>{timing === 'instant' ? '2-5 min' : timing === 'standard' ? '1-2 hours' : '1-3 days'}</span>
                     </div>
                     <div className="flex justify-between font-medium border-t pt-2">
                       <span>Total Cost</span>
                       <span>{conversionInfo.totalCost.toFixed(2)} {currency}</span>
                     </div>
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>Remaining Balance</span>
-                      <span>{(availableBalance - conversionInfo.totalCost).toFixed(2)} {currency}</span>
-                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Authentication Section */}
+              {authStep && (
+                <div className="p-4 bg-muted rounded-lg space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4 text-primary" />
+                    <span className="font-medium text-sm">Security Authentication</span>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Enter OTP Code</Label>
+                    <Input 
+                      placeholder="6-digit code from SMS/Email"
+                      value={otpCode}
+                      onChange={(e) => setOtpCode(e.target.value)}
+                      maxLength={6}
+                    />
                   </div>
                 </div>
               )}
@@ -242,11 +350,16 @@ export const SendReceiveModal = ({ isOpen, onClose, mode, defaultCurrency = 'USD
 
               <Button 
                 onClick={handleSend} 
-                disabled={loading || !recipient || !amount || conversionInfo.totalCost > availableBalance}
+                disabled={loading || !recipient || !amount || !channel || conversionInfo.totalCost > availableBalance}
                 className="w-full"
               >
                 {loading ? (
                   "Processing..."
+                ) : authStep ? (
+                  <>
+                    <Shield className="h-4 w-4 mr-2" />
+                    Verify & Send
+                  </>
                 ) : (
                   <>
                     <Send className="h-4 w-4 mr-2" />
