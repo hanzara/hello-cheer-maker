@@ -14,7 +14,323 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      card_kyc: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          card_id: string
+          city: string | null
+          country: string | null
+          document_image_url: string | null
+          document_number: string | null
+          document_type: string | null
+          estimated_delivery: string | null
+          full_name: string | null
+          id: string
+          postal_code: string | null
+          shipping_address: string | null
+          state: string | null
+          tracking_number: string | null
+          user_id: string
+          verification_status: string
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          card_id: string
+          city?: string | null
+          country?: string | null
+          document_image_url?: string | null
+          document_number?: string | null
+          document_type?: string | null
+          estimated_delivery?: string | null
+          full_name?: string | null
+          id?: string
+          postal_code?: string | null
+          shipping_address?: string | null
+          state?: string | null
+          tracking_number?: string | null
+          user_id: string
+          verification_status?: string
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          card_id?: string
+          city?: string | null
+          country?: string | null
+          document_image_url?: string | null
+          document_number?: string | null
+          document_type?: string | null
+          estimated_delivery?: string | null
+          full_name?: string | null
+          id?: string
+          postal_code?: string | null
+          shipping_address?: string | null
+          state?: string | null
+          tracking_number?: string | null
+          user_id?: string
+          verification_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_kyc_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      card_notifications: {
+        Row: {
+          card_id: string
+          declined_payments: boolean
+          id: string
+          notification_type: string
+          spending_limits: boolean
+          suspicious_activity: boolean
+          transaction_alerts: boolean
+        }
+        Insert: {
+          card_id: string
+          declined_payments?: boolean
+          id?: string
+          notification_type: string
+          spending_limits?: boolean
+          suspicious_activity?: boolean
+          transaction_alerts?: boolean
+        }
+        Update: {
+          card_id?: string
+          declined_payments?: boolean
+          id?: string
+          notification_type?: string
+          spending_limits?: boolean
+          suspicious_activity?: boolean
+          transaction_alerts?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_notifications_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      card_rewards: {
+        Row: {
+          card_id: string
+          current_milestone: number
+          id: string
+          next_milestone: number
+          reward_points: number
+          total_cashback: number
+          user_id: string
+        }
+        Insert: {
+          card_id: string
+          current_milestone?: number
+          id?: string
+          next_milestone?: number
+          reward_points?: number
+          total_cashback?: number
+          user_id: string
+        }
+        Update: {
+          card_id?: string
+          current_milestone?: number
+          id?: string
+          next_milestone?: number
+          reward_points?: number
+          total_cashback?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_rewards_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      card_transactions: {
+        Row: {
+          amount: number
+          card_id: string
+          category: string | null
+          created_at: string
+          currency_used: string
+          description: string | null
+          id: string
+          merchant_name: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          card_id: string
+          category?: string | null
+          created_at?: string
+          currency_used?: string
+          description?: string | null
+          id?: string
+          merchant_name: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          card_id?: string
+          category?: string | null
+          created_at?: string
+          currency_used?: string
+          description?: string | null
+          id?: string
+          merchant_name?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_transactions_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "user_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enhanced_wallet_transactions: {
+        Row: {
+          created_at: string
+          description: string | null
+          from_amount: number
+          from_currency: string
+          id: string
+          metadata: Json | null
+          status: string
+          to_amount: number | null
+          to_currency: string | null
+          transaction_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          from_amount: number
+          from_currency: string
+          id?: string
+          metadata?: Json | null
+          status?: string
+          to_amount?: number | null
+          to_currency?: string | null
+          transaction_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          from_amount?: number
+          from_currency?: string
+          id?: string
+          metadata?: Json | null
+          status?: string
+          to_amount?: number | null
+          to_currency?: string | null
+          transaction_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_cards: {
+        Row: {
+          auto_expiry_date: string | null
+          card_holder_name: string | null
+          card_name: string
+          card_number: string | null
+          card_subtype: string | null
+          card_type: string
+          created_at: string
+          currency_priority: string[] | null
+          current_balance: number
+          cvv: string | null
+          daily_limit: number | null
+          expiry_date: string | null
+          id: string
+          international_enabled: boolean
+          is_apple_pay_enabled: boolean
+          is_google_pay_enabled: boolean
+          is_paypal_enabled: boolean
+          monthly_limit: number | null
+          pin_hash: string | null
+          primary_currency: string
+          status: string
+          updated_at: string
+          user_id: string
+          weekly_limit: number | null
+        }
+        Insert: {
+          auto_expiry_date?: string | null
+          card_holder_name?: string | null
+          card_name: string
+          card_number?: string | null
+          card_subtype?: string | null
+          card_type: string
+          created_at?: string
+          currency_priority?: string[] | null
+          current_balance?: number
+          cvv?: string | null
+          daily_limit?: number | null
+          expiry_date?: string | null
+          id?: string
+          international_enabled?: boolean
+          is_apple_pay_enabled?: boolean
+          is_google_pay_enabled?: boolean
+          is_paypal_enabled?: boolean
+          monthly_limit?: number | null
+          pin_hash?: string | null
+          primary_currency?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+          weekly_limit?: number | null
+        }
+        Update: {
+          auto_expiry_date?: string | null
+          card_holder_name?: string | null
+          card_name?: string
+          card_number?: string | null
+          card_subtype?: string | null
+          card_type?: string
+          created_at?: string
+          currency_priority?: string[] | null
+          current_balance?: number
+          cvv?: string | null
+          daily_limit?: number | null
+          expiry_date?: string | null
+          id?: string
+          international_enabled?: boolean
+          is_apple_pay_enabled?: boolean
+          is_google_pay_enabled?: boolean
+          is_paypal_enabled?: boolean
+          monthly_limit?: number | null
+          pin_hash?: string | null
+          primary_currency?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+          weekly_limit?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
