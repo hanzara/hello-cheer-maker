@@ -6,6 +6,10 @@ import { ArrowRight, Shield, Users, Wallet, TrendingUp, Star, CheckCircle } from
 import chamaHeroImage from "@/assets/chama-hero.jpg";
 import walletFeatureImage from "@/assets/wallet-feature.jpg";
 import communitySuccessImage from "@/assets/community-success.jpg";
+import chamaMeetingImage from "@/assets/chama-meeting.jpg";
+import mobileMoneyImage from "@/assets/mobile-money.jpg";
+import financialSuccessImage from "@/assets/financial-success.jpg";
+import teamWorkspaceImage from "@/assets/team-workspace.jpg";
 
 const CompanyPage = () => {
   const navigate = useNavigate();
@@ -63,7 +67,7 @@ const CompanyPage = () => {
 
   const teamMembers = [
     {
-      name: "Sarah Kimani",
+      name: "Harun Nzai Randu",
       role: "CEO & Co-Founder",
       bio: "Former banking executive with 10+ years in African financial services"
     },
@@ -196,22 +200,37 @@ const CompanyPage = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Our Mission</h3>
-              <p className="text-muted-foreground">
-                We empower communities by transforming Chamas into secure, transparent, and scalable digital financial ecosystems.
-              </p>
-            </Card>
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-1 gap-6">
+                <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+                  <h3 className="text-xl font-semibold text-foreground mb-4">Our Mission</h3>
+                  <p className="text-muted-foreground">
+                    We empower communities by transforming Chamas into secure, transparent, and scalable digital financial ecosystems.
+                  </p>
+                </Card>
+                
+                <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+                  <h3 className="text-xl font-semibold text-foreground mb-4">Our Vision</h3>
+                  <p className="text-muted-foreground">
+                    To become Africa's leading platform for group savings, lending, and financial inclusion.
+                  </p>
+                </Card>
+              </div>
+            </div>
             
-            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Our Vision</h3>
-              <p className="text-muted-foreground">
-                To become Africa's leading platform for group savings, lending, and financial inclusion.
-              </p>
-            </Card>
-            
-            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+            <div className="relative">
+              <img 
+                src={chamaMeetingImage} 
+                alt="Chama group meeting" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-2xl -z-10"></div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Card className="border-border bg-background/50 backdrop-blur-sm p-8 max-w-2xl mx-auto">
               <h3 className="text-xl font-semibold text-foreground mb-4">Industry Focus</h3>
               <p className="text-muted-foreground">
                 FinTech / Financial Services with emphasis on community-driven financial solutions.
@@ -222,7 +241,7 @@ const CompanyPage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
@@ -233,7 +252,7 @@ const CompanyPage = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {features.map((feature, index) => (
               <Card key={index} className="border-border hover:border-primary/50 transition-colors bg-background/50 backdrop-blur-sm">
                 <CardContent className="p-6 space-y-4">
@@ -245,6 +264,36 @@ const CompanyPage = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* Mobile Money Integration Showcase */}
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative order-2 lg:order-1">
+              <img 
+                src={mobileMoneyImage} 
+                alt="Mobile money integration" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-2xl -z-10"></div>
+            </div>
+            
+            <div className="space-y-6 order-1 lg:order-2">
+              <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
+                Seamless Mobile Money Integration
+              </h3>
+              <p className="text-lg text-muted-foreground">
+                Connect effortlessly with M-Pesa, Airtel Money, and major banks. 
+                Make contributions and withdrawals with just a few taps on your phone.
+              </p>
+              <div className="space-y-3">
+                {benefits.slice(0, 3).map((benefit, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -284,23 +333,36 @@ const CompanyPage = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center space-y-4">
-              <div className="text-4xl font-bold text-primary">100+</div>
-              <div className="text-xl font-semibold text-foreground">Active Chamas</div>
-              <div className="text-muted-foreground">Successfully onboarded in beta phase</div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-1 gap-6">
+                <div className="text-center space-y-4 p-6 bg-background/50 rounded-xl border border-border">
+                  <div className="text-4xl font-bold text-primary">100+</div>
+                  <div className="text-xl font-semibold text-foreground">Active Chamas</div>
+                  <div className="text-muted-foreground">Successfully onboarded in beta phase</div>
+                </div>
+                
+                <div className="text-center space-y-4 p-6 bg-background/50 rounded-xl border border-border">
+                  <div className="text-4xl font-bold text-primary">80%+</div>
+                  <div className="text-xl font-semibold text-foreground">Market Need</div>
+                  <div className="text-muted-foreground">Of Africans rely on informal finance systems</div>
+                </div>
+                
+                <div className="text-center space-y-4 p-6 bg-background/50 rounded-xl border border-border">
+                  <div className="text-4xl font-bold text-primary">5+</div>
+                  <div className="text-xl font-semibold text-foreground">Countries</div>
+                  <div className="text-muted-foreground">Planned for regional expansion</div>
+                </div>
+              </div>
             </div>
             
-            <div className="text-center space-y-4">
-              <div className="text-4xl font-bold text-primary">80%+</div>
-              <div className="text-xl font-semibold text-foreground">Market Need</div>
-              <div className="text-muted-foreground">Of Africans rely on informal finance systems</div>
-            </div>
-            
-            <div className="text-center space-y-4">
-              <div className="text-4xl font-bold text-primary">5+</div>
-              <div className="text-xl font-semibold text-foreground">Countries</div>
-              <div className="text-muted-foreground">Planned for regional expansion</div>
+            <div className="relative">
+              <img 
+                src={financialSuccessImage} 
+                alt="Community financial success" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-2xl -z-10"></div>
             </div>
           </div>
         </div>
@@ -343,6 +405,27 @@ const CompanyPage = () => {
             </p>
           </div>
           
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            <div className="relative">
+              <img 
+                src={teamWorkspaceImage} 
+                alt="Team workspace" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-2xl -z-10"></div>
+            </div>
+            
+            <div className="space-y-6">
+              <h3 className="text-2xl lg:text-3xl font-bold text-foreground">
+                Building the Future of Finance
+              </h3>
+              <p className="text-lg text-muted-foreground">
+                Our diverse team combines deep financial expertise with cutting-edge technology 
+                to create solutions that truly serve African communities.
+              </p>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teamMembers.map((member, index) => (
               <Card key={index} className="border-border bg-background/50 backdrop-blur-sm text-center">
