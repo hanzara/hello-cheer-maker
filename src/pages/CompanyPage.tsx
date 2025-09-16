@@ -13,23 +13,74 @@ const CompanyPage = () => {
   const features = [
     {
       icon: <Wallet className="h-8 w-8" />,
-      title: "Smart Wallet System",
-      description: "Dual wallet management with chama-view-only and MGR wallets for seamless group savings."
+      title: "Digital Wallets",
+      description: "Connect M-Pesa, Airtel Money, and bank accounts for seamless financial integration."
     },
     {
       icon: <Users className="h-8 w-8" />,
-      title: "Group Management",
-      description: "Comprehensive chama management with roles, permissions, and transparent governance."
+      title: "Group Savings & Merry-Go-Round",
+      description: "Automate contributions, manage group savings, and handle rotating credit associations."
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: "Secure Transactions",
-      description: "Bank-level security with PIN authentication, encryption, and fraud detection."
+      title: "Loan Management",
+      description: "Apply, approve, and disburse loans digitally with AI-powered credit assessments."
     },
     {
       icon: <TrendingUp className="h-8 w-8" />,
-      title: "Financial Growth",
-      description: "Track your financial progress with leaderboards, analytics, and investment opportunities."
+      title: "Transparency & Analytics",
+      description: "Real-time reports visible to all members with comprehensive financial tracking."
+    }
+  ];
+
+  const additionalFeatures = [
+    "AI Credit Scoring for member trustworthiness assessment",
+    "Investor Access for verified Chamas to raise external funds",
+    "Mobile App & Web App accessible anytime, anywhere",
+    "Automated compliance and audit trails",
+    "Multi-language support for diverse communities",
+    "Real-time notifications and alerts"
+  ];
+
+  const businessModel = [
+    {
+      title: "Freemium & Premium Subscriptions",
+      description: "Basic features free, advanced tools for premium members"
+    },
+    {
+      title: "Transaction Fees",
+      description: "Small fees on withdrawals, contributions, and investments"
+    },
+    {
+      title: "Data Analytics",
+      description: "Insights and reporting services (with user consent)"
+    },
+    {
+      title: "Strategic Partnerships",
+      description: "Collaborations with banks, SACCOs, and institutional investors"
+    }
+  ];
+
+  const teamMembers = [
+    {
+      name: "Sarah Kimani",
+      role: "CEO & Co-Founder",
+      bio: "Former banking executive with 10+ years in African financial services"
+    },
+    {
+      name: "David Mwangi",
+      role: "CTO & Co-Founder", 
+      bio: "Software architect specializing in fintech and mobile payment systems"
+    },
+    {
+      name: "Grace Wanjiku",
+      role: "Product Lead",
+      bio: "UX expert focused on financial inclusion and community-driven design"
+    },
+    {
+      name: "Michael Ochieng",
+      role: "Head of Operations",
+      bio: "Operations specialist with deep knowledge of Chama culture and practices"
     }
   ];
 
@@ -83,18 +134,18 @@ const CompanyPage = () => {
               <div className="space-y-4">
                 <Badge variant="secondary" className="w-fit">
                   <Star className="h-3 w-3 mr-1" />
-                  Trusted by 10,000+ Groups
+                  Trusted by 100+ Active Chamas
                 </Badge>
                 
                 <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight">
-                  Smart Group
-                  <span className="text-primary block">Savings Made</span>
-                  Simple
+                  Digitizing Africa's
+                  <span className="text-primary block">Grassroots</span>
+                  Savings Culture
                 </h1>
                 
                 <p className="text-lg text-muted-foreground max-w-lg">
-                  Join the revolution in chama management. Save together, grow together, 
-                  and achieve your financial goals with our intelligent wallet system.
+                  Empowering communities by transforming Chamas into secure, transparent, 
+                  and scalable digital financial ecosystems across Africa.
                 </p>
               </div>
               
@@ -104,7 +155,7 @@ const CompanyPage = () => {
                   onClick={() => navigate("/auth")}
                   className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground px-8"
                 >
-                  Start Your Journey
+                  Get Started Free
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 
@@ -114,7 +165,7 @@ const CompanyPage = () => {
                   onClick={() => navigate("/auth")}
                   className="border-border hover:border-primary hover:text-primary"
                 >
-                  Join Existing Chama
+                  Request Demo
                 </Button>
               </div>
             </div>
@@ -129,6 +180,43 @@ const CompanyPage = () => {
               </div>
               <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-primary/10 rounded-3xl blur-2xl -z-10"></div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Overview Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              About ChamaWallet
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Founded in 2025 and headquartered in Mombasa, Kenya, we're transforming Africa's traditional savings groups into modern digital financial ecosystems.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+              <h3 className="text-xl font-semibold text-foreground mb-4">Our Mission</h3>
+              <p className="text-muted-foreground">
+                We empower communities by transforming Chamas into secure, transparent, and scalable digital financial ecosystems.
+              </p>
+            </Card>
+            
+            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+              <h3 className="text-xl font-semibold text-foreground mb-4">Our Vision</h3>
+              <p className="text-muted-foreground">
+                To become Africa's leading platform for group savings, lending, and financial inclusion.
+              </p>
+            </Card>
+            
+            <Card className="border-border bg-background/50 backdrop-blur-sm text-center p-8">
+              <h3 className="text-xl font-semibold text-foreground mb-4">Industry Focus</h3>
+              <p className="text-muted-foreground">
+                FinTech / Financial Services with emphasis on community-driven financial solutions.
+              </p>
+            </Card>
           </div>
         </div>
       </section>
@@ -161,55 +249,115 @@ const CompanyPage = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
+      {/* Additional Features Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-                  Why Choose ChamaWallet?
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Built specifically for African group savings with features that understand your needs
-                </p>
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Advanced Features
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Comprehensive tools designed specifically for African financial communities
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {additionalFeatures.map((feature, index) => (
+              <div key={index} className="flex items-center space-x-3 p-4 bg-background/50 rounded-lg border border-border">
+                <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                <span className="text-foreground">{feature}</span>
               </div>
-              
-              <div className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <Button 
-                size="lg"
-                onClick={() => navigate("/auth")}
-                className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground"
-              >
-                Get Started Today
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Traction & Impact Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Our Impact
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Addressing Africa's financial inclusion challenge with digital-first solutions
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center space-y-4">
+              <div className="text-4xl font-bold text-primary">100+</div>
+              <div className="text-xl font-semibold text-foreground">Active Chamas</div>
+              <div className="text-muted-foreground">Successfully onboarded in beta phase</div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <img 
-                  src={walletFeatureImage} 
-                  alt="Wallet features" 
-                  className="rounded-xl shadow-lg w-full h-auto"
-                />
-              </div>
-              <div className="space-y-4 pt-8">
-                <img 
-                  src={communitySuccessImage} 
-                  alt="Community success" 
-                  className="rounded-xl shadow-lg w-full h-auto"
-                />
-              </div>
+            <div className="text-center space-y-4">
+              <div className="text-4xl font-bold text-primary">80%+</div>
+              <div className="text-xl font-semibold text-foreground">Market Need</div>
+              <div className="text-muted-foreground">Of Africans rely on informal finance systems</div>
             </div>
+            
+            <div className="text-center space-y-4">
+              <div className="text-4xl font-bold text-primary">5+</div>
+              <div className="text-xl font-semibold text-foreground">Countries</div>
+              <div className="text-muted-foreground">Planned for regional expansion</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Business Model Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              How We Generate Revenue
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Sustainable business model designed to scale with our community
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            {businessModel.map((model, index) => (
+              <Card key={index} className="border-border hover:border-primary/50 transition-colors bg-background/50 backdrop-blur-sm">
+                <CardContent className="p-6 space-y-4">
+                  <h3 className="text-xl font-semibold text-foreground">{model.title}</h3>
+                  <p className="text-muted-foreground">{model.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+              Meet Our Team
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Experienced professionals dedicated to transforming African finance
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {teamMembers.map((member, index) => (
+              <Card key={index} className="border-border bg-background/50 backdrop-blur-sm text-center">
+                <CardContent className="p-6 space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full mx-auto flex items-center justify-center">
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
+                    <p className="text-primary font-medium">{member.role}</p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{member.bio}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -222,7 +370,7 @@ const CompanyPage = () => {
               Ready to Transform Your Chama?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of groups already using ChamaWallet to manage their savings, 
+              Join hundreds of groups already using ChamaWallet to manage their savings, 
               track contributions, and achieve their financial goals together.
             </p>
             
@@ -232,7 +380,7 @@ const CompanyPage = () => {
                 onClick={() => navigate("/auth")}
                 className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground px-8"
               >
-                Create Your Chama
+                Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               
@@ -242,8 +390,25 @@ const CompanyPage = () => {
                 onClick={() => navigate("/auth")}
                 className="border-border hover:border-primary hover:text-primary"
               >
-                Sign In to Existing Account
+                Login to Your Account
               </Button>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mt-12 pt-8 border-t border-border">
+              <div className="text-center">
+                <h3 className="font-semibold text-foreground mb-2">For Partnerships</h3>
+                <p className="text-sm text-muted-foreground">partnerships@chamawallet.com</p>
+              </div>
+              
+              <div className="text-center">
+                <h3 className="font-semibold text-foreground mb-2">For Investors</h3>
+                <p className="text-sm text-muted-foreground">investors@chamawallet.com</p>
+              </div>
+              
+              <div className="text-center">
+                <h3 className="font-semibold text-foreground mb-2">General Inquiries</h3>
+                <p className="text-sm text-muted-foreground">hello@chamawallet.com</p>
+              </div>
             </div>
           </div>
         </div>
