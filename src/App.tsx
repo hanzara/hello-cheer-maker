@@ -12,6 +12,7 @@ import HorizontalSubNav from "@/components/HorizontalSubNav";
 // Page imports
 import Index from "./pages/Index";
 import AuthPage from "./pages/AuthPage";
+import CompanyPage from "./pages/CompanyPage";
 import AppDownloadPage from "./pages/AppDownloadPage";
 import ChamasPage from "./pages/ChamasPage";
 import ChamaDetailPage from "./pages/ChamaDetailPage";
@@ -146,6 +147,7 @@ function App() {
           <BrowserRouter>
             <AuthProvider>
               <Routes>
+                <Route path="/company" element={<CompanyPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/download" element={<AppDownloadPage />} />
                 <Route path="*" element={
