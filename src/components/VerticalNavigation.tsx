@@ -50,13 +50,7 @@ const VerticalNavigation = ({ onMainTabChange }: VerticalNavigationProps) => {
       icon: Users,
       path: '/chamas',
       badge: '2',
-      subtabs: [
-        { label: 'My Chamas', path: '/chamas' },
-        { label: 'Available Chamas', path: '/available-chamas' },
-        { label: 'Create Chama', path: '/create-chama' },
-        { label: 'Join Chama', path: '/join-chama' },
-        { label: 'Advanced Features', path: '/advanced-chama' }
-      ]
+      subtabs: []
     },
     {
       id: 'investments',
@@ -64,11 +58,7 @@ const VerticalNavigation = ({ onMainTabChange }: VerticalNavigationProps) => {
       icon: TrendingUp,
       path: '/investment',
       badge: null,
-      subtabs: [
-        { label: 'Portfolio', path: '/investment' },
-        { label: 'Staking', path: '/staking' },
-        { label: 'P2P Trading', path: '/p2p-trading' }
-      ]
+      subtabs: []
     },
     {
       id: 'wallets',
@@ -88,12 +78,7 @@ const VerticalNavigation = ({ onMainTabChange }: VerticalNavigationProps) => {
       icon: HandCoins,
       path: '/loan-management',
       badge: null,
-      subtabs: [
-        { label: 'Apply for Loan', path: '/apply-loan' },
-        { label: 'My Loans', path: '/loan-management' },
-        { label: 'Adaptive Credit', path: '/adaptive-credit' },
-        { label: 'Blockchain Lending', path: '/blockchain-lending' }
-      ]
+      subtabs: []
     },
     {
       id: 'analytics',
