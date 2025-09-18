@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
-  Home, Users, TrendingUp, Wallet, Calculator, 
-  PiggyBank, Smartphone, Award, BarChart3, 
+  Home, Users, TrendingUp, Wallet, 
+  PiggyBank, BarChart3, 
   Building2, Shield, ChevronLeft, ChevronRight,
-  CreditCard, Target, HandCoins, Gamepad2,
-  BookOpen, Settings, LogOut, Menu, Handshake,
-  ChevronDown, ChevronUp, Brain
+  HandCoins, Gamepad2,
+  LogOut, Menu, Handshake, Brain
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-const VerticalNavigation = () => {
+interface VerticalNavigationProps {
+  onMainTabChange?: (tabId: string, subtabs: any[]) => void;
+}
+
+const VerticalNavigation = ({ onMainTabChange }: VerticalNavigationProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const isMobile = useIsMobile();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [openGroups, setOpenGroups] = useState<{[key: string]: boolean}>({});
+  const [activeMainTab, setActiveMainTab] = useState('');
 
   // Auto-collapse on mobile and set initial state
   useEffect(() => {
@@ -31,88 +34,106 @@ const VerticalNavigation = () => {
     }
   }, [isMobile]);
 
-  const navigationItems = [
+  // Main navigation items (main tabs that will show subtabs when clicked)
+  const mainNavigationItems = [
     {
+      id: 'home',
       title: 'Home',
       icon: Home,
       path: '/',
       badge: null,
+      subtabs: []
     },
     {
+      id: 'chamas',
       title: 'Chamas',
       icon: Users,
       path: '/chamas',
       badge: '2',
-      subItems: [
-        { title: 'My Chamas', path: '/chamas' },
-        { title: 'Create Chama', path: '/create-chama' },
-        { title: 'Join Chama', path: '/join-chama' },
-        { title: 'Advanced Features', path: '/advanced-chama' },
+      subtabs: [
+        { label: 'My Chamas', path: '/chamas' },
+        { label: 'Available Chamas', path: '/available-chamas' },
+        { label: 'Create Chama', path: '/create-chama' },
+        { label: 'Join Chama', path: '/join-chama' },
+        { label: 'Advanced Features', path: '/advanced-chama' }
       ]
     },
     {
+      id: 'investments',
       title: 'Investments',
       icon: TrendingUp,
       path: '/investment',
       badge: null,
-      subItems: [
-        { title: 'Portfolio', path: '/investment' },
-        { title: 'Staking', path: '/staking' },
-        { title: 'P2P Trading', path: '/p2p-trading' },
+      subtabs: [
+        { label: 'Portfolio', path: '/investment' },
+        { label: 'Staking', path: '/staking' },
+        { label: 'P2P Trading', path: '/p2p-trading' }
       ]
     },
     {
+      id: 'wallets',
       title: 'Wallets',
       icon: Wallet,
       path: '/smart-wallet',
       badge: 'New',
-      subItems: [
-        { title: 'Smart Wallet', path: '/smart-wallet' },
-        { title: 'Mobile Money', path: '/mobile-money' },
-        { title: 'Personal Savings', path: '/personal-savings' },
+      subtabs: [
+        { label: 'Smart Wallet', path: '/smart-wallet' },
+        { label: 'Mobile Money', path: '/mobile-money' },
+        { label: 'Personal Savings', path: '/personal-savings' }
       ]
     },
     {
+      id: 'loans',
       title: 'Loans',
       icon: HandCoins,
       path: '/loan-management',
       badge: null,
-      subItems: [
-        { title: 'My Loans', path: '/loan-management' },
-        { title: 'Adaptive Credit', path: '/adaptive-credit' },
-        { title: 'Blockchain Lending', path: '/blockchain-lending' },
+      subtabs: [
+        { label: 'Apply for Loan', path: '/apply-loan' },
+        { label: 'My Loans', path: '/loan-management' },
+        { label: 'Adaptive Credit', path: '/adaptive-credit' },
+        { label: 'Blockchain Lending', path: '/blockchain-lending' }
       ]
     },
     {
+      id: 'analytics',
       title: 'Analytics',
       icon: BarChart3,
       path: '/analytics',
       badge: null,
+      subtabs: []
     },
     {
+      id: 'community',
       title: 'Community',
-      icon: Award,
+      icon: Users,
       path: '/community-hub',
       badge: null,
-      subItems: [
-        { title: 'Community Hub', path: '/community-hub' },
-        { title: 'Voting System', path: '/voting-system' },
-        { title: 'Financial Navigator', path: '/financial-navigator' },
+      subtabs: [
+        { label: 'Community Hub', path: '/community-hub' },
+        { label: 'Networking', path: '/community-networking' },
+        { label: 'Voting System', path: '/voting-system' },
+        { label: 'Financial Navigator', path: '/financial-navigator' }
       ]
     },
     {
+      id: 'smart-finance',
       title: 'Smart Finance',
       icon: Brain,
       path: '/smart-finance',
       badge: 'AI',
-      subItems: [
-        { title: 'AI Advisor', path: '/smart-finance' },
-        { title: 'Smart Tracker', path: '/smart-finance?tab=tracker' },
-        { title: 'Financial Goals', path: '/smart-finance?tab=goals' },
-        { title: 'AI Suggestions', path: '/smart-finance?tab=suggestions' },
-        { title: 'Learn Money', path: '/smart-finance?tab=learn' },
+      subtabs: [
+        { label: 'AI Advisor', path: '/smart-finance' },
+        { label: 'Smart Tracker', path: '/smart-finance?tab=tracker' },
+        { label: 'Financial Goals', path: '/smart-finance?tab=goals' },
+        { label: 'AI Suggestions', path: '/smart-finance?tab=suggestions' },
+        { label: 'Learn Money', path: '/smart-finance?tab=learn' }
       ]
-    },
+    }
+  ];
+
+  // Additional items (these won't have subtabs shown at top)
+  const additionalItems = [
     {
       title: 'Partner Dashboard',
       icon: Handshake,
@@ -142,6 +163,26 @@ const VerticalNavigation = () => {
     },
   ];
 
+  // Determine active main tab based on current path
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeItem = mainNavigationItems.find(item => 
+      item.path === currentPath || 
+      item.subtabs?.some((sub: any) => sub.path === currentPath)
+    );
+    
+    if (activeItem && activeItem.id !== activeMainTab) {
+      setActiveMainTab(activeItem.id);
+      onMainTabChange?.(activeItem.id, activeItem.subtabs || []);
+    }
+  }, [location.pathname, onMainTabChange, activeMainTab]);
+
+  const handleMainTabClick = (item: any) => {
+    setActiveMainTab(item.id);
+    navigate(item.path);
+    onMainTabChange?.(item.id, item.subtabs || []);
+  };
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -162,15 +203,8 @@ const VerticalNavigation = () => {
     return location.pathname === path;
   };
 
-  const hasActiveSubItem = (subItems: any[]) => {
-    return subItems?.some(item => isActivePath(item.path));
-  };
-
-  const toggleGroup = (title: string) => {
-    setOpenGroups(prev => ({
-      ...prev,
-      [title]: !prev[title]
-    }));
+  const isActiveMainTab = (itemId: string) => {
+    return activeMainTab === itemId;
   };
 
   return (
@@ -216,103 +250,87 @@ const VerticalNavigation = () => {
 
       {/* Navigation */}
       <ScrollArea className="flex-1 p-6">
-        <nav className="space-y-3">
-          {navigationItems.map((item, index) => {
-            const IconComponent = item.icon;
-            const isActive = isActivePath(item.path) || (item.subItems && hasActiveSubItem(item.subItems));
-            const isGroupOpen = openGroups[item.title] || isActive;
-            
-            return (
-              <div key={index} className="space-y-2">
-                {item.subItems ? (
-                  <Collapsible open={isGroupOpen} onOpenChange={() => toggleGroup(item.title)}>
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 group hover:scale-[1.02] ${
-                          isActive
-                            ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/10'
-                            : 'text-foreground hover:bg-muted hover:text-foreground'
-                        } focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2`}
-                      >
-                        <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'bg-muted group-hover:bg-muted/80'}`}>
-                          <IconComponent className="h-5 w-5 flex-shrink-0" />
-                        </div>
-                        {!isCollapsed && (
-                          <>
-                            <span className="flex-1 text-left font-semibold">{item.title}</span>
-                            <div className="flex items-center gap-2">
-                              {item.badge && (
-                                <Badge 
-                                  variant={item.badge === 'Admin' || item.badge === 'Bank' ? 'destructive' : 'secondary'}
-                                  className="text-xs font-medium px-2 py-1"
-                                >
-                                  {item.badge}
-                                </Badge>
-                              )}
-                              <div className={`p-1 rounded-md transition-colors ${isActive ? 'bg-primary/20' : 'bg-muted/50'}`}>
-                                {isGroupOpen ? (
-                                  <ChevronUp className="h-4 w-4" />
-                                ) : (
-                                  <ChevronDown className="h-4 w-4" />
-                                )}
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </Button>
-                    </CollapsibleTrigger>
-                    
-                    {!isCollapsed && (
-                      <CollapsibleContent className="space-y-2">
-                        <div className="ml-6 space-y-2 pt-2 border-l-2 border-muted pl-4">
-                          {item.subItems.map((subItem, subIndex) => (
-                            <NavLink
-                              key={subIndex}
-                              to={subItem.path}
-                              className={`flex items-center px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-[1.02] ${
-                                isActivePath(subItem.path)
-                                  ? 'text-primary bg-primary/10 font-semibold border border-primary/20 shadow-md shadow-primary/10'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-muted/70'
-                              } focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2`}
-                            >
-                              <span>{subItem.title}</span>
-                            </NavLink>
-                          ))}
-                        </div>
-                      </CollapsibleContent>
-                    )}
-                  </Collapsible>
-                ) : (
-                  <NavLink
-                    to={item.path}
-                    className={`flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group ${
-                      isActive
-                        ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/10'
-                        : 'text-foreground hover:bg-muted hover:text-foreground'
-                    } focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2`}
-                  >
-                    <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'bg-muted group-hover:bg-muted/80'}`}>
-                      <IconComponent className="h-5 w-5 flex-shrink-0" />
-                    </div>
-                    {!isCollapsed && (
-                      <>
-                        <span className="flex-1 font-semibold">{item.title}</span>
-                        {item.badge && (
-                          <Badge 
-                            variant={item.badge === 'Admin' || item.badge === 'Bank' ? 'destructive' : 'secondary'}
-                            className="text-xs font-medium px-2 py-1"
-                          >
-                            {item.badge}
-                          </Badge>
-                        )}
-                      </>
-                    )}
-                  </NavLink>
-                )}
-              </div>
-            );
-          })}
+        <nav className="space-y-6">
+          {/* Main Navigation Items */}
+          <div className="space-y-2">
+            <div className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Main
+            </div>
+            {mainNavigationItems.map((item, index) => {
+              const IconComponent = item.icon;
+              const isActive = isActiveMainTab(item.id);
+              
+              return (
+                <Button
+                  key={item.id}
+                  variant="ghost"
+                  onClick={() => handleMainTabClick(item)}
+                  className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 group hover:scale-[1.02] ${
+                    isActive
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/10'
+                      : 'text-foreground hover:bg-muted hover:text-foreground'
+                  } focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2`}
+                >
+                  <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'bg-muted group-hover:bg-muted/80'}`}>
+                    <IconComponent className="h-5 w-5 flex-shrink-0" />
+                  </div>
+                  {!isCollapsed && (
+                    <>
+                      <span className="flex-1 text-left font-semibold">{item.title}</span>
+                      {item.badge && (
+                        <Badge 
+                          variant={item.badge === 'AI' ? 'default' : 'secondary'}
+                          className="text-xs font-medium px-2 py-1"
+                        >
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </>
+                  )}
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Additional Items */}
+          <div className="space-y-2">
+            <div className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              More
+            </div>
+            {additionalItems.map((item, index) => {
+              const IconComponent = item.icon;
+              const isActive = isActivePath(item.path);
+              
+              return (
+                <NavLink
+                  key={index}
+                  to={item.path}
+                  className={`flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-[1.02] group ${
+                    isActive
+                      ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg shadow-primary/10'
+                      : 'text-foreground hover:bg-muted hover:text-foreground'
+                  } focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2`}
+                >
+                  <div className={`p-2 rounded-lg transition-colors ${isActive ? 'bg-primary text-primary-foreground' : 'bg-muted group-hover:bg-muted/80'}`}>
+                    <IconComponent className="h-5 w-5 flex-shrink-0" />
+                  </div>
+                  {!isCollapsed && (
+                    <>
+                      <span className="flex-1 font-semibold">{item.title}</span>
+                      {item.badge && (
+                        <Badge 
+                          variant={item.badge === 'Admin' || item.badge === 'Bank' ? 'destructive' : 'secondary'}
+                          className="text-xs font-medium px-2 py-1"
+                        >
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
+          </div>
         </nav>
       </ScrollArea>
 
